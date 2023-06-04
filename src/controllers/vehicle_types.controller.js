@@ -40,12 +40,12 @@ exports.findAll = (req, res) => {
   if (name && brand_id) {
     condition = { 
       name: { [Op.iLike]: `%${name}%` },
-      brand_id: { [Op.iLike]: `%${brand_id}%` }
+      brand_id: { [Op.eq]: `${brand_id}` }
     };
   } else if (name) {
     condition = { name: { [Op.iLike]: `%${name}%` } };
   } else if (brand_id) {
-    condition = { brand_id: { [Op.iLike]: `%${brand_id}%` } };
+    condition = { brand_id: { [Op.eq]: `${brand_id}` } };
   }
 
   VehicleTypes.findAll({ where: condition })
