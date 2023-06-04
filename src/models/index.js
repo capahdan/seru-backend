@@ -24,6 +24,12 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.vehicle_brands = require("./vehicle_brands.model.js")(sequelize, Sequelize);
+db.vehicle_types = require("./vehicle_types.model.js")(sequelize, Sequelize);
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
+
+// db.vehicle_brands.hasMany(db.vehicle_types);
+db.vehicle_types.belongsTo(db.vehicle_brands,{
+  foreignKey: "brand_id",
+});
 
 module.exports = db;

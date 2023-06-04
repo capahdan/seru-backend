@@ -1,8 +1,8 @@
 const db = require("../models");
-const VehicleBrands = db.vehicle_brands;
+const VehicleTypes = db.vehicle_types;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new VehicleBrands
+// Create and Save a new VehicleTypes
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.name) {
@@ -12,21 +12,21 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a VehicleBrands
-  const tutorial = {
+  // Create a VehicleTypes
+  const vehicle_types = {
     name: req.body.name,
-    country: req.body.country,
+    brand_id: req.body.brand_id,
   };
 
-  // Save VehicleBrands in the database
-  VehicleBrands.create(tutorial)
+  // Save VehicleTypes in the database
+  VehicleTypes.create(vehicle_types)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the VehicleBrands."
+          err.message || "Some error occurred while creating the VehicleTypes."
       });
     });
 };
@@ -34,21 +34,21 @@ exports.create = (req, res) => {
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
   const name = req.query.name;
-  const country = req.query.country;
+  const brand_id = req.query.brand_id;
   let condition = null
 
-  if (name && country) {
+  if (name && brand_id) {
     condition = { 
       name: { [Op.iLike]: `%${name}%` },
-      country: { [Op.iLike]: `%${country}%` }
+      brand_id: { [Op.iLike]: `%${brand_id}%` }
     };
   } else if (name) {
     condition = { name: { [Op.iLike]: `%${name}%` } };
-  } else if (country) {
-    condition = { country: { [Op.iLike]: `%${country}%` } };
+  } else if (brand_id) {
+    condition = { brand_id: { [Op.iLike]: `%${brand_id}%` } };
   }
 
-  VehicleBrands.findAll({ where: condition })
+  VehicleTypes.findAll({ where: condition })
     .then(data => {
       res.send(data);
     })
@@ -60,74 +60,74 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single VehicleBrands with an id
+// Find a single VehicleTypes with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  VehicleBrands.findByPk(id)
+  VehicleTypes.findByPk(id)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving VehicleBrands with id=" + id
+        message: "Error retrieving VehicleTypes with id=" + id
       });
     });
 };
 
-// Update a VehicleBrands by the id in the request
+// Update a VehicleTypes by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  VehicleBrands.update(req.body, {
+  VehicleTypes.update(req.body, {
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "VehicleBrands was updated successfully."
+          message: "VehicleTypes was updated successfully."
         });
       } else {
         res.send({
-          message: `Cannot update VehicleBrands with id=${id}. Maybe VehicleBrands was not found or req.body is empty!`
+          message: `Cannot update VehicleTypes with id=${id}. Maybe VehicleTypes was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating VehicleBrands with id=" + id
+        message: "Error updating VehicleTypes with id=" + id
       });
     });
 };
 
-// Delete a VehicleBrands with the specified id in the request
+// Delete a VehicleTypes with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  VehicleBrands.destroy({
+  VehicleTypes.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "VehicleBrands was deleted successfully!"
+          message: "VehicleTypes was deleted successfully!"
         });
       } else {
         res.send({
-          message: `Cannot delete VehicleBrands with id=${id}. Maybe VehicleBrands was not found!`
+          message: `Cannot delete VehicleTypes with id=${id}. Maybe VehicleTypes was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete VehicleBrands with id=" + id
+        message: "Could not delete VehicleTypes with id=" + id
       });
     });
 };
 
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
-  VehicleBrands.destroy({
+  VehicleTypes.destroy({
     where: {},
     truncate: false
   })

@@ -1,28 +1,14 @@
 module.exports = app => {
     const vehicle_brands = require("../controllers/vehicle_brands.controller.js");
-  
+    const { authJwt } = require("../middleware");
     var router = require("express").Router();
-  
-    // Create a new Vehicles Brand
-    router.post("/", vehicle_brands.create);
-  
-    // Retrieve all Vehicles Brands
-    router.get("/", vehicle_brands.findAll);
-  
-    // Retrieve all published Vehicles Brands
-    router.get("/published", vehicle_brands.findAllPublished);
-  
-    // Retrieve a single Vehicles Brand with id
-    router.get("/:id", vehicle_brands.findOne);
-  
-    // Update a Vehicles Brand with id
-    router.patch("/:id", vehicle_brands.update);
-  
-    // Delete a Vehicles Brand with id
-    router.delete("/:id", vehicle_brands.delete);
-  
-    // Delete all Vehicles Brands
-    router.delete("/", vehicle_brands.deleteAll);
+
+    router.post("/",[authJwt.verifyToken, authJwt.isAdmin], vehicle_brands.create);
+    router.get("/",[authJwt.verifyToken], vehicle_brands.findAll);
+    router.get("/:id", [authJwt.verifyToken], vehicle_brands.findOne);
+    router.patch("/:id", [authJwt.verifyToken,authJwt.isAdmin], vehicle_brands.update);
+    router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], vehicle_brands.delete);
+    router.delete("/",[authJwt.verifyToken, authJwt.isAdmin], vehicle_brands.deleteAll);
   
     app.use("/api/vehicle_brands", router);
   };

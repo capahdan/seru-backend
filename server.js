@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./src/models");
-db.sequelize.sync()
+db.sequelize.sync({force:true})
   .then(() => {
     console.log("Synced db.");
   })
@@ -34,6 +34,7 @@ db.sequelize.sync()
 require('./src/routes/auth.routes')(app);
 require('./src/routes/user.routes')(app);
 require("./src/routes/vehicle_brands.routes")(app);
+require("./src/routes/vehicle_types.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
