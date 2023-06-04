@@ -2,6 +2,19 @@ const db = require("../models");
 const PriceList = db.price_list;
 const Op = db.Sequelize.Op;
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 10;
+  const offset = page ? (limit*(page-1) + 1) - 1 : 0;
+  
+  return { limit, offset };
+};
+
+const getPagingData = (data,limit,offset) => {
+  const { count: totalItems, rows: vehicle_brands } = data;
+  
+  return { total:totalItems, data:{vehicle_brands}, limit, skip:offset };
+};
+
 // Create and Save a new PriceList
 exports.create = (req, res) => {
   // Validate request
@@ -41,6 +54,9 @@ exports.findAll = (req, res) => {
   
   const pmin = req.query.pmin;
   const pmax = req.query.pmax;
+  const { page, size } = req.query;
+
+  const {limit, offset} = getPagination(page, size);
   let condition = {}
 
   if (pmin && pmax) {
@@ -64,16 +80,17 @@ exports.findAll = (req, res) => {
   }
 
 
-  PriceList.findAll({ where: condition })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials."
-      });
+  PriceList.findAndCountAll({ where: condition, limit, offset })
+  .then(data => {
+    const response = getPagingData(data, limit, offset);
+    res.send(response);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving tutorials."
     });
+  });
 };
 
 // Find a single PriceList with an id

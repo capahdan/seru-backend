@@ -2,6 +2,53 @@ const db = require("../models");
 const VehicleBrands = db.vehicle_brands;
 const Op = db.Sequelize.Op;
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 10;
+  const offset = page ? (limit*(page-1) + 1) - 1 : 0;
+  
+  return { limit, offset };
+};
+
+const getPagingData = (data,limit,offset) => {
+  const { count: totalItems, rows: vehicle_brands } = data;
+  
+  return { total:totalItems, data:{vehicle_brands}, limit, skip:offset };
+};
+
+
+// Retrieve all VehicleBrand from the database.
+exports.findAll = (req, res) => {
+  const name = req.query.name;
+  const country = req.query.country;
+  const { page, size } = req.query;
+
+  const {limit, offset} = getPagination(page, size);
+  let condition = null
+
+  if (name && country) {
+    condition = { 
+      name: { [Op.iLike]: `%${name}%` },
+      country: { [Op.iLike]: `%${country}%` }
+    };
+  } else if (name) {
+    condition = { name: { [Op.iLike]: `%${name}%` } };
+  } else if (country) {
+    condition = { country: { [Op.iLike]: `%${country}%` } };
+  }
+
+  VehicleBrands.findAndCountAll({ where: condition, limit, offset })
+    .then(data => {
+      const response = getPagingData(data, limit, offset);
+      res.send(response);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
+    });
+};
+
 // Create and Save a new VehicleBrands
 exports.create = (req, res) => {
   // Validate request
@@ -27,35 +74,6 @@ exports.create = (req, res) => {
       res.status(500).send({
         message:
           err.message || "Some error occurred while creating the VehicleBrands."
-      });
-    });
-};
-
-// Retrieve all Tutorials from the database.
-exports.findAll = (req, res) => {
-  const name = req.query.name;
-  const country = req.query.country;
-  let condition = null
-
-  if (name && country) {
-    condition = { 
-      name: { [Op.iLike]: `%${name}%` },
-      country: { [Op.iLike]: `%${country}%` }
-    };
-  } else if (name) {
-    condition = { name: { [Op.iLike]: `%${name}%` } };
-  } else if (country) {
-    condition = { country: { [Op.iLike]: `%${country}%` } };
-  }
-
-  VehicleBrands.findAll({ where: condition })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials."
       });
     });
 };
