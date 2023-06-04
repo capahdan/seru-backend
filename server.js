@@ -35,6 +35,9 @@ require('./src/routes/auth.routes')(app);
 require('./src/routes/user.routes')(app);
 require("./src/routes/vehicle_brands.routes")(app);
 require("./src/routes/vehicle_types.routes")(app);
+require("./src/routes/vehicle_models.routes")(app);
+require("./src/routes/vehicle_years.routes")(app);
+require("./src/routes/price_list.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
