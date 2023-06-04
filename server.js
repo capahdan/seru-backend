@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
@@ -10,10 +11,10 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
-app.use(express.json());
+app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./src/models");
 db.sequelize.sync()
@@ -29,8 +30,10 @@ db.sequelize.sync()
 //   console.log("Drop and re-sync db.");
 // });
 
-
-require("./src/routes/vehicle_brands")(app);
+// routes
+require('./src/routes/auth.routes')(app);
+require('./src/routes/user.routes')(app);
+require("./src/routes/vehicle_brands.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

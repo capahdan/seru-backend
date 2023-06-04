@@ -1,27 +1,27 @@
 module.exports = app => {
-    const vehicle_brands = require("../controllers/vehicle_brands.js");
+    const vehicle_brands = require("../controllers/vehicle_brands.controller.js");
   
     var router = require("express").Router();
   
-    // Create a new Tutorial
+    // Create a new Vehicles Brand
     router.post("/", vehicle_brands.create);
   
-    // Retrieve all Tutorials
+    // Retrieve all Vehicles Brands
     router.get("/", vehicle_brands.findAll);
   
-    // Retrieve all published Tutorials
+    // Retrieve all published Vehicles Brands
     router.get("/published", vehicle_brands.findAllPublished);
   
-    // Retrieve a single Tutorial with id
+    // Retrieve a single Vehicles Brand with id
     router.get("/:id", vehicle_brands.findOne);
   
-    // Update a Tutorial with id
+    // Update a Vehicles Brand with id
     router.patch("/:id", vehicle_brands.update);
   
-    // Delete a Tutorial with id
+    // Delete a Vehicles Brand with id
     router.delete("/:id", vehicle_brands.delete);
   
-    // Delete all Tutorials
+    // Delete all Vehicles Brands
     router.delete("/", vehicle_brands.deleteAll);
   
     app.use("/api/vehicle_brands", router);
