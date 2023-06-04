@@ -35,13 +35,34 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  const year = req.query.year;
-  const type_id = req.query.type_id;
-  let condition = null
+  const currency = req.query.currency; // this is string
+  const model_id = req.query.model_id;
+  const year_id = req.query.year_id;
+  
+  const pmin = req.query.pmin;
+  const pmax = req.query.pmax;
+  let condition = {}
 
-  if (year) {
-    condition = { year: { [Op.iLike]: `%${year}%` } };
-  } 
+  if (pmin && pmax) {
+    condition.price = { [Op.gte]: `${pmin}` };
+    condition.price = { ...condition.price, [Op.lte]: `${pmax}` };
+  }else if (pmin) {
+    condition.price = { [Op.gte]: `${pmin}` };
+  }else if (pmax) {
+    condition.price = { [Op.lte]: `${pmax}` };
+  }
+  if (currency) {
+    condition.currency = { [Op.iLike]: `%${currency}%` };
+  }
+
+  if (model_id) {
+    condition.model_id = { [Op.eq]: `${model_id}` } ;
+  }
+
+  if (year_id) {
+    condition.year_id =  { [Op.eq]: `${year_id}` } ;
+  }
+
 
   PriceList.findAll({ where: condition })
     .then(data => {
