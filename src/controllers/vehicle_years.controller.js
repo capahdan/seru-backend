@@ -2,6 +2,19 @@ const db = require("../models");
 const VehicleYears = db.vehicle_years;
 const Op = db.Sequelize.Op;
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 10;
+  const offset = page ? (limit*(page-1) + 1) - 1 : 0;
+  
+  return { limit, offset };
+};
+
+const getPagingData = (data,limit,offset) => {
+  const { count: totalItems, rows: vehicle_brands } = data;
+  
+  return { total:totalItems, data:{vehicle_brands}, limit, skip:offset };
+};
+
 // Create and Save a new VehicleYears
 exports.create = (req, res) => {
   // Validate request
@@ -33,16 +46,19 @@ exports.create = (req, res) => {
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
   const year = req.query.year;
-  const type_id = req.query.type_id;
+  const { page, size } = req.query;
+
+  const {limit, offset} = getPagination(page, size);
   let condition = null
 
   if (year) {
     condition = { year: { [Op.iLike]: `%${year}%` } };
   } 
 
-  VehicleYears.findAll({ where: condition })
+  VehicleYears.findAndCountAll({ where: condition, limit, offset })
     .then(data => {
-      res.send(data);
+      const response = getPagingData(data, limit, offset);
+      res.send(response);
     })
     .catch(err => {
       res.status(500).send({

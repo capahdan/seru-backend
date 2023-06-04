@@ -2,6 +2,19 @@ const db = require("../models");
 const VehicleTypes = db.vehicle_types;
 const Op = db.Sequelize.Op;
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 10;
+  const offset = page ? (limit*(page-1) + 1) - 1 : 0;
+  
+  return { limit, offset };
+};
+
+const getPagingData = (data,limit,offset) => {
+  const { count: totalItems, rows: vehicle_brands } = data;
+  
+  return { total:totalItems, data:{vehicle_brands}, limit, skip:offset };
+};
+
 // Create and Save a new VehicleTypes
 exports.create = (req, res) => {
   // Validate request
@@ -35,6 +48,9 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const name = req.query.name;
   const brand_id = req.query.brand_id;
+  const { page, size } = req.query;
+
+  const {limit, offset} = getPagination(page, size);
   let condition = null
 
   if (name && brand_id) {
@@ -48,9 +64,10 @@ exports.findAll = (req, res) => {
     condition = { brand_id: { [Op.eq]: `${brand_id}` } };
   }
 
-  VehicleTypes.findAll({ where: condition })
+  VehicleTypes.findAndCountAll({ where: condition, limit, offset })
     .then(data => {
-      res.send(data);
+      const response = getPagingData(data, limit, offset);
+      res.send(response);
     })
     .catch(err => {
       res.status(500).send({
