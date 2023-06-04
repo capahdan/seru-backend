@@ -1,11 +1,10 @@
 version: '3'
 services:
     seru-db:
-        image: mysql:8
+        image: postgres:14.2-alpine
         ports:
-            - 3306:3306
+            - 5432:5432
         environment:
-            - MYSQL_DATABASE=my-database
-            - MYSQL_ROOT_PASSWORD=password
-        volumes:
-            - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=Advent777
+            - POSTGRES_DB=seru
