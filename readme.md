@@ -383,6 +383,7 @@ User Non Admin
 | `brand_id` | `integer` | **JSON** |
 
 ```
+```
 {
     "message": "VehicleType was Created successfully!",
     "data": {
@@ -501,6 +502,7 @@ User Non Admin
 | `type_id` | `integer` | **JSON** |
 
 ```
+```
 {
     "message": "VehicleModel was Created successfully!",
     "data": {
@@ -617,6 +619,7 @@ User Non Admin
 | :-------- | :------- | :--------|
 | `year`    | `string` | **JSON** |
 
+```
 ```
 {
     "message": "VehicleYears was Created successfully!",
@@ -761,6 +764,7 @@ User Non Admin
 | `year_id`    | `integer` | **JSON** |
 | `model_id`    | `integer` | **JSON** |
 
+```
 ```
 {
     "message": "PriceList was Created successfully!",
