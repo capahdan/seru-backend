@@ -17,7 +17,7 @@ exports.signup = (req, res) => {
     is_admin: req.body.is_admin
   })
     .then(user => {
-      return res.send({ message: "User was registered successfully!" ,user});  
+      return res.send({ message: "User was registered successfully!" ,data:{user}});  
     })
     .catch(err => {
       res.status(500).send({ message: err.message });
@@ -42,8 +42,8 @@ exports.signin = (req, res) => {
 
       if (!passwordIsValid) {
         return res.status(401).send({
-          accessToken: null,
-          message: "Invalid Password!"
+          message: "Invalid Password!",
+          accessToken: null
         });
       }
 
@@ -52,13 +52,18 @@ exports.signin = (req, res) => {
       });
 
   
-        res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          phone_number: user.phone_number,
-          is_admin: user.is_admin,
-          accessToken: token
+        res.status(200).send(
+          
+          { message: "User Login successfully!" ,
+          data:
+              {
+              id: user.id,
+              username: user.username,
+              email: user.email,
+              phone_number: user.phone_number,
+              is_admin: user.is_admin,
+              accessToken: token
+              }
         });
      
     })
