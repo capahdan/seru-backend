@@ -20,3 +20,4 @@ services:
             - DB_DATABASE=seru
         depends_on:
             - seru-postgres
+        restart: "on-failure"
