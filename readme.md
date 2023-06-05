@@ -66,6 +66,24 @@ server.js                                *Entry point of the API
 ```
 
 
+
+## Run Locally
+
+if we have docker installed in our machine, we can run this API using docker-compose
+
+```bash
+  docker-compose up
+```
+
+or 
+run locally setup the database in postgresql and configure the database name etc in **config/db.config.js and run the server
+
+```bash
+  npm install
+  node server.js
+```
+
+
 ## API Reference
 
 
