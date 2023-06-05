@@ -10,9 +10,9 @@ const getPagination = (page, size) => {
 };
 
 const getPagingData = (data,limit,offset) => {
-  const { count: totalItems, rows: vehicle_brands } = data;
+  const { count: totalItems, rows: price_list } = data;
   
-  return { total:totalItems, data:{vehicle_brands}, limit, skip:offset };
+  return { total:totalItems, data:{price_list}, limit, skip:offset };
 };
 
 // Create and Save a new PriceList
@@ -35,8 +35,12 @@ exports.create = (req, res) => {
 
   // Save PriceList in the database
   PriceList.create(price_list)
-    .then(data => {
-      res.send(data);
+    .then(price_list => {
+      res.send(
+        {
+          message: "PriceList was Created successfully!" ,data:{price_list}
+        }
+      );
     })
     .catch(err => {
       res.status(500).send({

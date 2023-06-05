@@ -10,9 +10,9 @@ const getPagination = (page, size) => {
 };
 
 const getPagingData = (data,limit,offset) => {
-  const { count: totalItems, rows: vehicle_brands } = data;
+  const { count: totalItems, rows: vehicle_year } = data;
   
-  return { total:totalItems, data:{vehicle_brands}, limit, skip:offset };
+  return { total:totalItems, data:{vehicle_year}, limit, skip:offset };
 };
 
 // Create and Save a new VehicleYears
@@ -32,8 +32,10 @@ exports.create = (req, res) => {
 
   // Save VehicleYears in the database
   VehicleYears.create(vehicle_year)
-    .then(data => {
-      res.send(data);
+    .then(vehicle_year => {
+      res.send(
+        { message: "VehicleYears was Created successfully!" ,data:{vehicle_year}}
+      );
     })
     .catch(err => {
       res.status(500).send({
