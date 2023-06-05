@@ -231,14 +231,16 @@ User Non Admin
 
 ```
 
-All the Get Request we can add query to filter to make pagination with 
+**All the Get Request we can add query to filter to make pagination with**
 
-| Parameter | Type     | Header Type                |
-| :-------- | :------- | :--------|
-| `page`    | `integer` | **JSON** |
-| `size` | `integer` | **JSON** |
+```
+| Parameter | Type     | Header Type|
+| :-------- | :------- | :--------  |
+| `page`    | `integer` | **JSON**  |
+| `size`    | `integer` | **JSON**  |
 
 e.g 
+```
 ```
 GET /api/vehicle_brands?page=1&size=5
 ```
@@ -351,6 +353,7 @@ User Non Admin
 | `name`    | `string` | **JSON** |
 | `brand_id` | `integer` | **JSON** |
 
+```
 ```
 {
     "message": "VehicleType was Created successfully!",
@@ -470,6 +473,7 @@ User Non Admin
 | `type_id` | `integer` | **JSON** |
 
 ```
+```
 {
     "message": "VehicleModel was Created successfully!",
     "data": {
@@ -586,6 +590,7 @@ User Non Admin
 | :-------- | :------- | :--------|
 | `year`    | `string` | **JSON** |
 
+```
 ```
 {
     "message": "VehicleYears was Created successfully!",
@@ -730,6 +735,7 @@ User Non Admin
 | `year_id`    | `integer` | **JSON** |
 | `model_id`    | `integer` | **JSON** |
 
+```
 ```
 {
     "message": "PriceList was Created successfully!",
