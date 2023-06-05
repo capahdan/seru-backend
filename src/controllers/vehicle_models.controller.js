@@ -33,8 +33,10 @@ exports.create = (req, res) => {
 
   // Save VehicleModels in the database
   VehicleModels.create(vehicle_types)
-    .then(data => {
-      res.send(data);
+    .then(vehicle_models => {
+      res.send(
+        { message: "VehicleModel was Created successfully!" ,data:{vehicle_models}}
+      );
     })
     .catch(err => {
       res.status(500).send({
