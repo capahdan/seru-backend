@@ -64,3 +64,226 @@ saya menggunakan Konsep MVC yang tidak ada bagian Viewnya
 server.js                                *Entry point of the API
   
 ```
+
+
+## API Reference
+
+
+Basic implementasi
+
+#### Register
+
+```http
+  POST /api/auth/signup
+
+```
+
+| Parameter | Type     | Header Type                |
+| :-------- | :------- | :------------------------- |
+| `username` | `string` |  **JSON** |
+| `password` | `string` |  **JSON** |
+| `email` | `string` |  **JSON** |
+| `phone_number` | `integer` |  **JSON** |
+| `is_admin` | `bool` |**JSON**|
+
+
+```
+Response Success:
+{
+    "message": "User was registered successfully!",
+    "data": {
+        "user": {
+            "id": 1,
+            "username": "daniel",
+            "email": "daniel@gmail.com",
+            "phone_number": 12323242,
+            "password": "$2a$08$/NdJJy.CcOOzFPF1gYR2IeMMJZVbhIzMmeOIur3pRcoF1cPFebHq2",
+            "is_admin": true,
+            "updatedAt": "2023-06-05T05:46:55.020Z",
+            "createdAt": "2023-06-05T05:46:55.020Z"
+        }
+    }
+}
+```
+
+```
+if dupplicate user:
+{
+    "message": "Failed! Username is already in use!"
+}
+```
+
+#### Login
+
+
+```http
+  POST /api/auth/signin
+```
+
+| Parameter | Type     | Header Type                |
+| :-------- | :------- | :------------------------- |
+| `email` | `string` | **JSON** |
+| `password` | `string` | **JSON** |
+
+
+```
+successfully;
+{
+    "message": "User Login successfully!",
+    "data": {
+        "id": 1,
+        "username": "daniel",
+        "email": "daniel@gmail.com",
+        "phone_number": 12323242,
+        "is_admin": true,
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg1OTQ0NDc3LCJleHAiOjE2ODYwMzA4Nzd9.eF6OYnn74-Vd0keROh7HSqQz-HHkRGt1m5IWufkcmeM"
+    }
+}
+```
+
+```
+wrong password
+
+{
+    "message": "Invalid Password!",
+    "accessToken": null
+}
+
+```
+
+#### Vechicle Brand
+
+
+```http
+  POST /api/vehicle_brands
+```
+```
+Without Tokens
+{
+    "message": "No token provided!"
+}
+```
+```
+User Non Admin
+
+{
+    "message": "Require Admin Role!"
+}
+
+
+| Parameter | Type     | Header Type                |
+| :-------- | :------- | :--------|
+| `name`    | `string` | **JSON** |
+| `country` | `string` | **JSON** |
+
+
+{
+    "message": "VehicleBrand was Created successfully!",
+    "data": {
+        "vehicle_brands": {
+            "id": 3,
+            "name": "toyota",
+            "country": "Japan",
+            "updatedAt": "2023-06-05T06:07:53.350Z",
+            "createdAt": "2023-06-05T06:07:53.350Z"
+        }
+    }
+}
+
+
+```
+```
+  GET /api/vehicle_brands
+```
+```
+{
+    "total": 3,
+    "data": {
+        "vehicle_brands": [
+            {
+                "id": 3,
+                "name": "toyota",
+                "country": "Japan",
+                "createdAt": "2023-06-05T06:07:53.350Z",
+                "updatedAt": "2023-06-05T06:07:53.350Z"
+            },
+            {
+                "id": 1,
+                "name": "ford",
+                "country": "USA",
+                "createdAt": "2023-06-05T06:05:49.270Z",
+                "updatedAt": "2023-06-05T06:05:49.270Z"
+            },
+            {
+                "id": 2,
+                "name": "BMW",
+                "country": "Japan",
+                "createdAt": "2023-06-05T06:07:17.388Z",
+                "updatedAt": "2023-06-05T06:07:17.388Z"
+            }
+        ]
+    },
+    "limit": 10,
+    "skip": 0
+}
+
+```
+```
+With Query params
+    GET /api/vehicle_brands?name=ford&country=usa
+```
+
+```
+{
+    "total": 1,
+    "data": {
+        "vehicle_brands": [
+            {
+                "id": 1,
+                "name": "ford",
+                "country": "USA",
+                "createdAt": "2023-06-05T06:05:49.270Z",
+                "updatedAt": "2023-06-05T06:05:49.270Z"
+            }
+        ]
+    },
+    "limit": 10,
+    "skip": 0
+}
+```
+```
+GET /api/vehicle_brands/1
+```
+```
+{
+    "id": 2,
+    "name": "BMW",
+    "country": "Japan",
+    "createdAt": "2023-06-05T06:07:17.388Z",
+    "updatedAt": "2023-06-05T06:07:17.388Z"
+}
+```
+
+```
+PATCH /api/vehicle_brands/2
+```
+| Parameter | Type     | Header Type                |
+| :-------- | :------- | :--------|
+| `name`    | `string` | **JSON** |
+| `country` | `string` | **JSON** |
+
+```
+{
+    "message": "VehicleBrands was updated successfully."
+}
+```
+```
+DELETE /api/vehicle_brands/2
+```
+```
+{
+    "message": "VehicleBrands was deleted successfully!"
+}
+```
+
+
