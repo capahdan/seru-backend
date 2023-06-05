@@ -67,8 +67,9 @@ exports.create = (req, res) => {
 
   // Save VehicleBrands in the database
   VehicleBrands.create(tutorial)
-    .then(data => {
-      res.send(data);
+    .then(vehicle_brands => {
+      res.send(
+        { message: "VehicleBrand was Created successfully!" ,data:{vehicle_brands}});
     })
     .catch(err => {
       res.status(500).send({
