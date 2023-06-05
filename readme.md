@@ -15,6 +15,19 @@ API ini adalah implementasi dari basic Vehicle API.
 - Servis - aplikasi dan database (PostgreSQL) di kontanerisasi menggunakan Docker.
 
 
+## RUN
+
+- Clone this repository
+- Run `docker-compose up` to run the API
+- Run `docker-compose down` to stop the API
+
+or if you want to setup the database in postgresql and configure the database name etc in **config/db.config.js and run the server
+
+```bash
+  npm install
+  node server.js
+```
+
 
 ## ERD:
  ![seru_backend_test_erd](https://user-images.githubusercontent.com/90734992/243256683-cd7b7c31-42b7-4ab0-ac1e-220139c4e893.jpeg)

@@ -8,8 +8,6 @@ services:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=Advent777
             - POSTGRES_DB=seru
-        volumes:
-        - ./data:/var/lib/postgresql/data
     seru-backend:
         build: .
         ports:
