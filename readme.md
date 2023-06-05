@@ -17,4 +17,4 @@ API ini adalah implementasi dari basic Vehicle API.
 
 
 ## ERD:
- ![seru_backend_test_erd](https://github.com/capahdan/seru-backend/db/ERD.jepg)
+ ![seru_backend_test_erd](https://github.com/capahdan/seru-backend/db/ERD.jpeg)
